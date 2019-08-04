@@ -4,8 +4,8 @@ import 'Homepage.dart';
 
 
 
-void main()=>runApp(flutterst1());
-class flutterst1 extends StatelessWidget {
+void main()=>runApp(Flutterst1());
+class Flutterst1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

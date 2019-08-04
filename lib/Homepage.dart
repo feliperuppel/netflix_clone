@@ -5,7 +5,7 @@ import 'Detailpage.dart';
 import 'PopularMovie.dart';
 import 'PopularMovieData.dart';
 import 'movieslider.dart';
-import 'moviesmodel.dart';
+import 'package:netflix_clone/model/moviesmodel.dart';
 
 
 
@@ -92,7 +92,7 @@ class _HomepageState extends State<Homepage>
 
             ));
     bestm(BMovies movie)=>TopMovies(
-      image: movie.Image,
+      image: movie.image,
     );
 
     final popularscroll = Container(
@@ -192,8 +192,8 @@ class _HomepageState extends State<Homepage>
 }
 
 class ImageData extends StatelessWidget {
-  String image;
-  String name;
+  final String image;
+  final String name;
   ImageData(this.image, this.name);
   @override
   Widget build(BuildContext context) {

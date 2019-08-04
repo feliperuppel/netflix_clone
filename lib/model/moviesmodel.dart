@@ -1,7 +1,7 @@
 class BMovies{
-  String Image;
-  int Boxc;
-  BMovies(this.Image);
+  String image;
+  int boxc;
+  BMovies(this.image);
 }
  List<BMovies> bmovies1=[
    BMovies(

@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import 'Detailpage.dart';
 import 'PopularMovie.dart';
 import 'PopularMovieData.dart';
+import 'animeslider.dart';
 import 'model/animeModel.dart';
-import 'movieslider.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -20,6 +20,7 @@ class _HomepageState extends State<Homepage>
   AnimationController animationController;
   Future<List<Anime>> loadedAnimes;
   Future<List<Anime>> loadedBestAnimes;
+  Future<List<Anime>> loadedAnimeSlider;
 
   @override
   void initState() {
@@ -30,10 +31,11 @@ class _HomepageState extends State<Homepage>
 
     loadedAnimes = fetchAnimes('http://one.zetai.info/api/animes/recentes');
     loadedBestAnimes = fetchAnimes('http://one.zetai.info/api/animes/recentes');
+    loadedAnimeSlider =
+        fetchAnimes('http://one.zetai.info/api/animes/recentes');
   }
 
   Future<List<Anime>> fetchAnimes(String url) async {
-    print("fetchAnimes : Rest GET ---------> " + url);
     final response = await http.get(Uri.encodeFull(url),
         headers: {'Content-type': 'application/json; charset=utf-8'});
     if (response.statusCode == 200) {
@@ -182,7 +184,17 @@ class _HomepageState extends State<Homepage>
                   ],
                 ),
               ),
-              netflixslider(),
+              FutureBuilder<List<Anime>>(
+                future: loadedBestAnimes,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return AnimeSlider(snapshot.data);
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                  return CircularProgressIndicator();
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(

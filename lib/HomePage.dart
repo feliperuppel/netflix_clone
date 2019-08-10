@@ -185,10 +185,9 @@ class _HomepageState extends State<Homepage>
                 ),
               ),
               FutureBuilder<List<Anime>>(
-                future: loadedBestAnimes,
+                future: loadedAnimeSlider,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    
                     return AnimeSlider(snapshot.data);
                   } else if (snapshot.hasError) {
                     return Text("${snapshot.error}");

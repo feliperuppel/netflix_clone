@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'Detailpage.dart';
+import 'DetailPage.dart';
 import 'PopularMovie.dart';
 import 'PopularMovieData.dart';
-import 'animeslider.dart';
+import 'AnimeSlider.dart';
 import 'model/animeModel.dart';
 
 class Homepage extends StatefulWidget {
@@ -31,8 +31,7 @@ class _HomepageState extends State<Homepage>
 
     loadedAnimes = fetchAnimes('http://one.zetai.info/api/animes/recentes');
     loadedBestAnimes = fetchAnimes('http://one.zetai.info/api/animes/recentes');
-    loadedAnimeSlider =
-        fetchAnimes('http://one.zetai.info/api/animes/recentes');
+    loadedAnimeSlider = fetchAnimes('http://one.zetai.info/api/animes/recentes');
   }
 
   Future<List<Anime>> fetchAnimes(String url) async {
@@ -94,10 +93,10 @@ class _HomepageState extends State<Homepage>
               future: loadedBestAnimes,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  
                   bestAnimes(Anime anime) => TopMovies(
                         image: anime.imagem,
                       );
-                  Anime anime = snapshot.data[index];
                   return Row(
                     children: snapshot.data
                         .map((movie) => bestAnimes(movie))
@@ -144,6 +143,7 @@ class _HomepageState extends State<Homepage>
                     future: loadedAnimes,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
+                        
                         Anime anime = snapshot.data[index];
                         return Column(
                           children: <Widget>[
@@ -188,6 +188,7 @@ class _HomepageState extends State<Homepage>
                 future: loadedBestAnimes,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    
                     return AnimeSlider(snapshot.data);
                   } else if (snapshot.hasError) {
                     return Text("${snapshot.error}");

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+//import 'package:flutter/foundation.dart';
 
-import 'Homepage.dart';
+import 'HomePage.dart';
 
 
 
@@ -10,6 +11,9 @@ class Flutterst1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
+//        theme: defaultTargetPlatform == TargetPlatform.iOS
+//            ? kIOSTheme
+//            : kDefaultTheme,
         home:Homepage()
     );
   }

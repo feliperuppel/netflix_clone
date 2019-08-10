@@ -175,7 +175,7 @@ class MoviePoster extends StatelessWidget {
 }
 
 class Moviedata extends StatefulWidget {
-  String release, dname, rating;
+  final String release, dname, rating;
   Icon icon;
 
   Moviedata({this.rating, this.release, this.dname});

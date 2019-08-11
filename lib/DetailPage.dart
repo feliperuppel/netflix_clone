@@ -55,8 +55,8 @@ class Detailpage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Moviedata(
-                        rating: anime.rank.toString(),
+                      AnimeData(
+                        rank: anime.rank.toString(),
                         dname: anime.categoria.split(" ")[0],
                         release: anime.ano,
                       ),
@@ -78,7 +78,10 @@ class Detailpage extends StatelessWidget {
                                 height: 15,
                               ),
                               Text(
-                                anime.desc,
+                                anime.desc == "" ? anime.nome + " \n"
+                                    "lero lero lero lero \n"
+                                    "lero lero lero lero \n"
+                                    "lero lero lero lero \n": anime.desc,
                                 style: TextStyle(fontSize: 15, height: 1.4),
                               ),
                             ],
@@ -175,25 +178,25 @@ class MoviePoster extends StatelessWidget {
   }
 }
 
-class Moviedata extends StatefulWidget {
-  final String release, dname, rating;
-  Icon icon;
+class AnimeData extends StatefulWidget {
+  final String release, dname, rank;
+//  Icon icon;
 
-  Moviedata({this.rating, this.release, this.dname});
+  AnimeData({this.rank, this.release, this.dname});
 
   @override
-  _MoviedataState createState() => _MoviedataState();
+  _AnimeDataState createState() => _AnimeDataState();
 }
 
-class _MoviedataState extends State<Moviedata> {
+class _AnimeDataState extends State<AnimeData> {
   List<Movieinfo> data = new List<Movieinfo>();
 
   @override
   void initState() {
     super.initState();
     data.add(new Movieinfo(
-        "Rating",
-        widget.rating,
+        "Rank",
+        widget.rank,
         Icon(
           Icons.star_border,
           size: 46,

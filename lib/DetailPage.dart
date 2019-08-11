@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
-import 'PopularMovieData.dart';
+
+import 'model/animeModel.dart';
 
 class Detailpage extends StatelessWidget {
-  final PopularList list;
+  final Anime anime;
 
-  Detailpage({this.list});
+  Detailpage({this.anime});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class Detailpage extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 130),
                               child: Text(
-                                list.name,
+                                anime.nome,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
@@ -46,7 +47,7 @@ class Detailpage extends StatelessWidget {
                                 top: 12,
                                 right: 0,
                                 child: Text(
-                                  list.rating,
+                                  anime.rank.toString(),
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontFamily: 'MagnumSansBold'),
@@ -55,9 +56,9 @@ class Detailpage extends StatelessWidget {
                         ),
                       ),
                       Moviedata(
-                        rating: list.rating,
-                        dname: list.directorname,
-                        release: list.release,
+                        rating: anime.rank.toString(),
+                        dname: anime.categoria.split(" ")[0],
+                        release: anime.ano,
                       ),
                       FittedBox(
                         child: Container(
@@ -77,7 +78,7 @@ class Detailpage extends StatelessWidget {
                                 height: 15,
                               ),
                               Text(
-                                list.description,
+                                anime.desc,
                                 style: TextStyle(fontSize: 15, height: 1.4),
                               ),
                             ],
@@ -100,14 +101,14 @@ class Detailpage extends StatelessWidget {
       height: 250,
       child: Stack(
         overflow: Overflow.visible,
-        children: <Widget>[BlueBar(list.image), MoviePoster(list.image)],
+        children: <Widget>[BlueBar(anime.imagem), MoviePoster(anime.imagem)],
       ),
     );
   }
 }
 
 class BlueBar extends StatelessWidget {
-  String image;
+  final String image;
 
   BlueBar(this.image);
 
@@ -122,8 +123,8 @@ class BlueBar extends StatelessWidget {
           height: animation,
           width: double.infinity,
           decoration: BoxDecoration(
-              image:
-                  DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
+              image: DecorationImage(
+                  image: NetworkImage(image), fit: BoxFit.cover)),
         );
       },
     );
@@ -156,7 +157,7 @@ class MoviePoster extends StatelessWidget {
               width: 100,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(image),
+                    image: NetworkImage(image),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(6.0),
@@ -189,7 +190,6 @@ class _MoviedataState extends State<Moviedata> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     data.add(new Movieinfo(
         "Rating",
@@ -206,7 +206,7 @@ class _MoviedataState extends State<Moviedata> {
           size: 46,
         )));
     data.add(new Movieinfo(
-      "Director",
+      "Genero",
       widget.dname,
       Icon(
         Icons.people_outline,

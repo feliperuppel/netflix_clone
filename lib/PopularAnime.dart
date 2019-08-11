@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-class PopularMovie extends StatelessWidget {
-  String image, name;
-  String rating;
+import 'model/animeModel.dart';
 
-  PopularMovie({this.image, this.name, this.rating});
+class PopularAnime extends StatelessWidget {
+  final Anime anime;
+
+  PopularAnime({this.anime});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class PopularMovie extends StatelessWidget {
               width: 100,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(image),
+                    image: NetworkImage(anime.imagem),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(6.0),
@@ -33,7 +34,7 @@ class PopularMovie extends StatelessWidget {
               //width: 100,
               //height: 40,
               child: Text(
-                name,
+                anime.nome.split(" ")[0],
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 15,
@@ -42,7 +43,7 @@ class PopularMovie extends StatelessWidget {
               ),
             ),
             Text(
-              "IMDB ${rating}",
+              "Rank ${anime.rank}",
               style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,

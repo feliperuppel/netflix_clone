@@ -1,8 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 
-class Anime extends StatelessWidget{
+class Anime extends StatelessWidget {
   final int id;
   final String nome;
   final String desc;
@@ -12,7 +10,15 @@ class Anime extends StatelessWidget{
   final String categoria;
   final int rank;
 
-  Anime({this.id, this.nome, this.desc, this.status, this.imagem, this.ano, this.categoria, this.rank});
+  Anime(
+      {this.id,
+      this.nome,
+      this.desc,
+      this.status,
+      this.imagem,
+      this.ano,
+      this.categoria,
+      this.rank});
 
   factory Anime.fromJson(Map<String, dynamic> json) {
     return Anime(
@@ -23,8 +29,7 @@ class Anime extends StatelessWidget{
         imagem: json['Imagem'],
         ano: json['Ano'],
         categoria: json['Categoria'],
-        rank: json['Rank']
-    );
+        rank: json['Rank']);
   }
 
 //  @override
@@ -52,7 +57,7 @@ class Anime extends StatelessWidget{
               width: 100,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(imagem),
+                    image: NetworkImage(imagem),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(6.0),

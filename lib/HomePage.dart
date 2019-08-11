@@ -3,10 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'DetailPage.dart';
-import 'PopularMovie.dart';
-import 'PopularMovieData.dart';
 import 'AnimeSlider.dart';
+import 'DetailPage.dart';
+import 'PopularAnime.dart';
 import 'model/animeModel.dart';
 
 class Homepage extends StatefulWidget {
@@ -21,6 +20,7 @@ class _HomepageState extends State<Homepage>
   Future<List<Anime>> loadedAnimes;
   Future<List<Anime>> loadedBestAnimes;
   Future<List<Anime>> loadedAnimeSlider;
+  Future<List<Anime>> loadedPopularAnime;
 
   @override
   void initState() {
@@ -31,7 +31,10 @@ class _HomepageState extends State<Homepage>
 
     loadedAnimes = fetchAnimes('http://one.zetai.info/api/animes/recentes');
     loadedBestAnimes = fetchAnimes('http://one.zetai.info/api/animes/recentes');
-    loadedAnimeSlider = fetchAnimes('http://one.zetai.info/api/animes/recentes');
+    loadedAnimeSlider =
+        fetchAnimes('http://one.zetai.info/api/animes/recentes');
+    loadedPopularAnime =
+        fetchAnimes('http://one.zetai.info/api/animes/recentes');
   }
 
   Future<List<Anime>> fetchAnimes(String url) async {
@@ -60,30 +63,38 @@ class _HomepageState extends State<Homepage>
 
   @override
   Widget build(BuildContext context) {
-    popMovies(PopularList plist) => InkWell(
+    popMovies(Anime a) => InkWell(
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => Detailpage(
-                      list: plist,
+                      anime: a,
                     )),
           );
         },
-        child: PopularMovie(
-          image: plist.image,
-          name: plist.name,
-          rating: plist.rating,
-        ));
+        child: PopularAnime(anime: a));
 
     final popularscroll = Container(
       child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        physics: BouncingScrollPhysics(),
-        child: Row(
-          children: populartlist.map((pl) => popMovies(pl)).toList(),
-        ),
-      ),
+          scrollDirection: Axis.horizontal,
+          physics: BouncingScrollPhysics(),
+          child: FutureBuilder<List<Anime>>(
+            future: loadedAnimes,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Row(
+                  children:
+                      snapshot.data.map((list) => popMovies(list)).toList(),
+                );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+
+              // By default, show a loading spinner.
+              return CircularProgressIndicator();
+            },
+          )),
     );
     final scroll = Container(
         child: SingleChildScrollView(
@@ -93,7 +104,6 @@ class _HomepageState extends State<Homepage>
               future: loadedBestAnimes,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  
                   bestAnimes(Anime anime) => TopMovies(
                         image: anime.imagem,
                       );
@@ -143,11 +153,10 @@ class _HomepageState extends State<Homepage>
                     future: loadedAnimes,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        
                         Anime anime = snapshot.data[index];
                         return Column(
                           children: <Widget>[
-                            ImageData(anime.imagem, anime.nome),
+                            ImageData(anime.imagem, anime.nome.split(" ")[0]),
                             scroll
                           ],
                         );
